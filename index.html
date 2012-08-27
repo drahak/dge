@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="cs-CZ"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="cs-CZ"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="cs-CZ"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="cs-CZ"> <!--<![endif]-->
+  <head>
+	<head>
+  
+	  	<!-- Charset -->
+	  	<meta charset="utf-8" />
+	  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	  
+	    <!-- Page title -->
+	    <title>Pacman</title>
+	    
+	    <!-- Meta tagy -->
+	    <meta name="author" content="Drahomír Hanák" />
+	    <meta name="robots" content="noindex, nofollow" />
+	    <meta name="language" content="cs" />
+	    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+	    
+	    <!-- CSS -->
+	    <link rel="stylesheet" type="text/css" href="css/page.css?v=1.0" />
+	    
+	    <!-- JavaScript -->
+	    <script type="text/javascript" src="scripts/libs/modernizr.min.js"></script>
+  	</head>
+	<body>
+  
+		<!-- Wrap -->
+	    <div id="wrap">
+	    
+	    	<!-- Header -->
+	    	<header>
+	    		
+	    		<!-- Main title -->
+	    		<hgroup>
+	    			<img src="resources/images/logo.png" alt="HTML5 Pac-man by Drahomir Hanák" width="600" />
+					<h1>Pacman</h1>
+					<h2>by Drahomír Hanák</h2>
+				</hgroup>
+		    </header>
+		    
+		    <!-- Game screen -->
+			<div id="pacman">
+				<div class="score">score: 0 / 0</div>
+                <canvas id="game-canvas" width="800" height="600"></canvas>
+            </div>
+
+		    
+		    <!-- Page footer -->
+		    <footer>
+		    	<p>&copy; 2012 Drahomír Hanák</p>
+		    </footer>
+		    
+		</div>
+	    
+		<!-- JavaScript -->
+		<script src="scripts/libs/jquery.min.js"></script>
+
+        <!-- dge lib -->
+        <script type="text/javascript" src="scripts/dge/helpers.js"></script>
+        <script type="text/javascript" src="scripts/dge/Object.js"></script>
+        <script type="text/javascript" src="scripts/dge/Container.js"></script>
+        <script type="text/javascript" src="scripts/dge/Game.js"></script>
+        <script type="text/javascript" src="scripts/dge/Image.js"></script>
+        <script type="text/javascript" src="scripts/dge/AnimationSheet.js"></script>
+        <script type="text/javascript" src="scripts/dge/GameObject.js"></script>
+        <script type="text/javascript" src="scripts/dge/CollisionMap.js"></script>
+        <script type="text/javascript" src="scripts/dge/Level.js"></script>
+        <script type="text/javascript" src="scripts/dge/Vector2.js"></script>
+        <script type="text/javascript" src="scripts/dge/Rectangle.js"></script>
+        <script type="text/javascript" src="scripts/dge/Entity.js"></script>
+        <script type="text/javascript" src="scripts/dge/Input.js"></script>
+
+        <!-- Game sources -->
+        <script type="text/javascript" src="scripts/pacman.js"></script>
+    </body>
+</html>

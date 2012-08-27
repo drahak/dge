@@ -1,0 +1,285 @@
+@import url(http://fonts.googleapis.com/css?family=Marck+Script&subset=latin,latin-ext,cyrillic);
+@font-face {
+    font-family: 'BebasNeueRegular';
+    src: url('../resources/fonts/bebasneue-webfont.eot');
+    src: url('../resources/fonts/bebasneue-webfont.eot?#iefix') format('eot'),
+         url('../resources/fonts/bebasneue-webfont.woff') format('woff'),
+         url('../resources/fonts/bebasneue-webfont.ttf') format('truetype'),
+         url('../resources/fonts/bebasneue-webfont.svg#webfontX0YNjQNl') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+/**
+ * ------------------
+ * Base tags
+ * ------------------
+ */
+
+* {
+  	margin: 0;
+	padding: 0;  
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+html {
+    font-size: 100%; 
+    overflow-y: scroll; 
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+body {
+	background: #f0f0f0 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');
+	color: #222;
+	font: 14px "Open Sans", sans-serif; 
+	line-height: 1.4em;
+}
+
+p {
+  	margin: 10px 0;
+  	font-weight: 400;
+}
+
+p.annotation {
+	text-align: center;
+	font-size: 1.25em;
+	line-height: 1.5em;
+	color: #555;
+	margin: -25px 0 0;
+}
+
+h1, h2, h3, h4 {
+	padding: 5px 0;
+	margin: 10px 0 0;
+}
+
+h1 {
+  	text-align: center;
+  	padding: 20px;
+  	font-size: 5em;
+  	line-height: .7em;
+}
+
+h2 {
+	font-size: 2.5em;
+	padding: 0 0 30px;
+	color: #444;
+}
+
+h3 {
+  	text-transform: uppercase;
+	font-size: 2em;
+} 
+
+a {
+  	color: #46a4e5;  
+}
+
+a:hover {
+	color: #fff;
+	background: #367fb2;        
+	text-decoration: none;
+}
+
+abbr[title] {
+    border-bottom: 1px dotted;
+}
+
+pre, code, kbd, samp {
+    font-family: monospace, serif;
+    _font-family: 'courier new', monospace;
+    font-size: 1em;
+}
+
+p {
+  text-align: justify;
+  color: #666;
+  margin-top: 8px;  
+}
+
+br.clearLeft {
+	clear: left;
+}
+
+hr {
+    padding: 0;
+    margin: 20px 0 0;
+    border: none;
+    border-top: 1px solid #ddd;
+    color: #333;
+    text-align: center;
+}
+
+hr:after {
+    content: "#";
+    display: inline-block;
+    position: relative; 
+    top: -0.65em;  
+    font-size: 1.8em;
+    font-weight: bold;
+    padding: 0.25em;
+    background: #fff;
+    color: #e54b39;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px; 
+}
+
+img {
+    border: 0; 
+    -ms-interpolation-mode: bicubic; 
+}
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+/**
+ * ------------------
+ * Forms styling
+ * ------------------
+ */
+
+form {
+	margin: 0;
+}
+
+fieldset {
+	border: 1px solid #c0c0c0;
+	margin: 0 2px;
+	padding: 0.35em 0.625em 0.75em;	
+}
+
+legend {
+	border: 0;
+	*margin-left: -7px;
+}
+
+button, input, select, textarea {
+    font-size: 100%; 
+    margin: 0; 
+    vertical-align: baseline; 
+    *vertical-align: middle; 
+}
+
+button,
+input[type="button"], 
+input[type="reset"], 
+input[type="submit"] {
+    cursor: pointer; 
+    -webkit-appearance: button;
+    *overflow: visible; 
+}
+
+/**
+ * ------------------
+ * Page header
+ * ------------------
+ */
+
+header {
+	height: 300px;
+	position: relative;
+	z-index: 50;
+}
+
+header h1 {
+	margin-top: -50px;
+	font: normal 10em 'BebasNeueRegular', sans-serif;
+	text-align: center;
+	color: #ffb801;
+	display: none;
+}
+
+header h2 {
+	color: #000;
+	text-align: center;
+	margin: 0;
+	top: -50px;
+	position: relative;
+	font: normal 2.5em 'Marck Script', cursive;
+	display: none;
+}
+
+header img {
+	width: 600px;
+	margin: 0px auto;
+	display: block;
+}
+
+/**
+ * ------------------
+ * Page layout
+ * ------------------
+ */
+#wrap {
+  	margin: 10px auto;  
+  	width: 800px;      
+}
+
+section {
+	padding: 10px;
+}
+
+.noborder {
+	border: none !important;
+}
+
+/**
+ * ------------------
+ * Game screen
+ * ------------------
+ */
+#pacman {  }
+
+#pacman .score {
+	position: relative;
+	float: right;
+	padding: 8px 20px;
+	margin-right: 20px;
+	background: #6e8027;
+	color: #fff;
+	font: normal 2em "BebasNeueRegular", sans-serif;	
+	-webkit-border-top-left-radius: 8px;
+	-webkit-border-top-right-radius: 8px;
+	-moz-border-radius-topleft: 8px;
+	-moz-border-radius-topright: 8px;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+}
+
+#pacman canvas {
+	-webkit-box-shadow: 0 0 80px #bbb;
+	-moz-box-shadow: 0 0 80px #bbb;
+	box-shadow: 0 0 80px #bbb;
+}
+
+
+/**
+ * ------------------
+ * Cypright
+ * ------------------
+ */
+
+footer {
+	text-align: center;
+	padding: 0 0 50px;
+	margin: 0;
+}  
+
+/**
+ * ------------------
+ * Media queries
+ * ------------------
+ */
+
+@media (max-width: 900px) {
+}
+
+@media (max-width: 800px) {
+}
+
+@media (max-width: 480px) {
+}
