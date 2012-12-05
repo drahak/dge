@@ -113,7 +113,7 @@ dge.Object = (function() {
             Class.prototype.parent = parent;
 
             // And make this class extendable
-            Class.extend = arguments.callee;
+            Class.extend = Class.prototype.extend = arguments.callee;
 
             return Class;
         },

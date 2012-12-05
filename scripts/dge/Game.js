@@ -43,11 +43,11 @@ dge.Game = (function( window ) {
         init: function( container ) {
 
 			// Call parent method
-			this._super(new dge.Graphics.Renderer(container.parameters.drawing));
+			this._super(container.create('renderer'));
 
             // Create context
             this.context = container;
-			$(container.parameters.drawing.base).addClass('dge-base');
+			$(container.parameters.rendering.base).addClass('dge-base');
 
 			// Setup timer
             this.addTick("repaint", this.repaint);

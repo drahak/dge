@@ -15,16 +15,16 @@ dge.Graphics.Renderer = (function( $ ) {
 
 		/**
 		 * Create canvas 2D renderer
-		 * @param {Object} drawing
+		 * @param {Object} rendering
 		 */
-		init: function( drawing ) {
+		init: function( rendering ) {
 			this.canvas = $('<canvas></canvas>');
 			this.canvas.attr({
-				width: drawing.width,
-				height: drawing.height
+				width: rendering.width,
+				height: rendering.height
 			});
 			this.canvas.addClass('dge-renderer');
-			this.canvas.appendTo(drawing.base);
+			this.canvas.appendTo(rendering.base);
 			this.ctx = this.canvas.get(0).getContext('2d');
 		},
 
