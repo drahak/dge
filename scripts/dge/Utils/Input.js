@@ -1,4 +1,6 @@
-dge.Input = (function( $ ) {
+dge.Utils = dge.Utils || {};
+
+dge.Utils.Input = (function( $ ) {
 
     var Input = {
         // All callbacks

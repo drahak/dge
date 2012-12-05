@@ -38,10 +38,10 @@
             this.image.addNode("down", [7,8,9,8]);
             this.image.addNode("up", [10,11,12,11]);
 
-            dge.Input.bind(dge.Input.D, 'right');
-            dge.Input.bind(dge.Input.A, 'left');
-            dge.Input.bind(dge.Input.W, 'up');
-            dge.Input.bind(dge.Input.S, 'down');
+			dge.Utils.Input.bind(dge.Utils.Input.D, 'right');
+			dge.Utils.Input.bind(dge.Utils.Input.A, 'left');
+			dge.Utils.Input.bind(dge.Utils.Input.W, 'up');
+			dge.Utils.Input.bind(dge.Utils.Input.S, 'down');
         },
 
         /**
@@ -54,16 +54,16 @@
 			this._super(diff);
 
             // Entity movement
-            if (dge.Input.pressed('right')) {
+            if (dge.Utils.Input.pressed('right')) {
                 this.image.setNode('right');
                 this.distance.set(60, 0);
-            } else if (dge.Input.pressed('left')) {
+            } else if (dge.Utils.Input.pressed('left')) {
                 this.image.setNode('left');
                 this.distance.set(-60, 0);
-            } else if (dge.Input.pressed('up')) {
+            } else if (dge.Utils.Input.pressed('up')) {
                 this.image.setNode('up');
                 this.distance.set(0, -60);
-            } else if (dge.Input.pressed('down')) {
+            } else if (dge.Utils.Input.pressed('down')) {
                 this.image.setNode('down');
                 this.distance.set(0, 60);
             }
