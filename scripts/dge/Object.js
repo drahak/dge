@@ -64,7 +64,7 @@ dge.Object = (function() {
             }
 
             // Instantiate a base class (but only create the instance,
-            // don't run the initialize constructor)
+            // don't run the init constructor)
             initializing = true;
             var prototype = typeof this === "function" ? new this() : {};
             initializing = false;
@@ -96,8 +96,8 @@ dge.Object = (function() {
             // The dummy class constructor
             function Class() {
                 // All construction is actually done in the init method
-                if ( !initializing && this.initialize )
-                    this.initialize.apply(this, arguments);
+                if ( !initializing && this.init )
+                    this.init.apply(this, arguments);
             }
 
             // Populate our constructed prototype object

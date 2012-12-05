@@ -1,0 +1,8 @@
+.dge-base {
+	position: relative;
+	overflow: hidden;
+}
+
+.dge-base .dge-renderer {
+	position: absolute;
+}

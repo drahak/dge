@@ -11,9 +11,10 @@ dge.CollisionMap = (function() {
 
         /**
          * Create collision map
-         * @param {Array}.<Array> map
+         * @param {Array} map
+		 * @param {Number} tileSize
          */
-        initialize: function( map, tileSize ) {
+        init: function( map, tileSize ) {
             this.tileSize = tileSize;
             for (var y in map) {
                 this.map[y] = this.map[y] || [];

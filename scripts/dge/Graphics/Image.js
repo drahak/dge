@@ -1,5 +1,7 @@
+dge.Graphics = dge.Graphics || {};
+
 // Game resource - Image
-dge.Image = (function() {
+dge.Graphics.Image = (function() {
 
     /**
      * Image class
@@ -15,7 +17,7 @@ dge.Image = (function() {
          * @param {String} source
          * @constructor
          */
-        initialize: function( source ) {
+        init: function( source ) {
             this.img = new Image();
             this.source = source;
             this.rectangle = new dge.Rectangle(dge.Vector2.zero(), 0, 0);
@@ -51,10 +53,10 @@ dge.Image = (function() {
 
         /**
          * Draw image
-         * @param {dge.Game} game instance
-         * @param {dge.Vector2}
+         * @param {dge.Graphics.Renderer} renderer
+         * @param {dge.Vector2} vector
          */
-        draw: function( game, vector ) {
+        draw: function( renderer, vector ) {
             var that = this;
 
             // Get position
@@ -63,18 +65,18 @@ dge.Image = (function() {
 
             // Load & draw image
             return this.load(function() {
-                game.ctx.drawImage(this, that.rectangle.vector.x, that.rectangle.vector.y);
+				renderer.ctx.drawImage(this, that.rectangle.vector.x, that.rectangle.vector.y);
             });
         },
 
         /**
          * Draw image tile
-         * @param {dge.Game} game instance
-         * @param {dge.Vector2}
-         * @param {Number} tile index
-         * @param {Number} tile size
+         * @param {dge.Graphics.Renderer} renderer
+         * @param {dge.Vector2} vector
+         * @param {Number} index
+         * @param {Number} tileSize
          */
-        drawTile: function( game, vector, index, tileSize ) {
+        drawTile: function( renderer, vector, index, tileSize ) {
             var that = this;
 
             // Get position
@@ -89,7 +91,7 @@ dge.Image = (function() {
                     column = index-((this.width/tileSize)*row)-1;
 
                 // Draw image on canvas
-                game.ctx.drawImage(this,
+				renderer.ctx.drawImage(this,
                     column*tileSize, row*tileSize,
                     tileSize, tileSize,
                     that.rectangle.vector.x, that.rectangle.vector.y,

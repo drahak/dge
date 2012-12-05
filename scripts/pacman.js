@@ -8,18 +8,30 @@
         [1,1,1,1,1,1,1,1,1,1,1]
     ], 30);
 
+	// Create system container
+	var container = new dge.Container({
+
+		// Game drawing settings
+		drawing: {
+			base: '#pacman',
+			width: 800,
+			height: 600
+		}
+
+	});
+
     /**
      * Pacman entity
      * @author Drahomír Hanák
      */
-    var PacmanEntity = dge.Entity.extend({
+    var PacmanEntity = dge.Objects.Entity.extend({
 
         /**
          * Initialize entity
          */
-        initialize: function() {
+        init: function() {
             // Call parent
-            this.parent.initialize.apply(this, arguments);
+            this._super.apply(this, arguments);
 
             this.image.addNode("right", [1,2,3,2]);
             this.image.addNode("left", [4,5,6,5]);
@@ -38,6 +50,9 @@
          */
         update: function( diff ) {
 
+			// Call parent
+			this._super(diff);
+
             // Entity movement
             if (dge.Input.pressed('right')) {
                 this.image.setNode('right');
@@ -53,8 +68,7 @@
                 this.distance.set(0, 60);
             }
 
-            // Call parent
-            this.parent.update.call(this, diff);
+			this.invalidateControl();
         },
 
         /**
@@ -88,44 +102,42 @@
          * Pacman game constructor
          * @constructor
          */
-        initialize: function() {
-            // Create system container
-            var container = new dge.Container({
-                canvas: '#game-canvas'
-            });
+        init: function() {
 
-            // Load assets
-            this.bg = new dge.Image("resources/images/level_background.png");
-            this.pacman = new PacmanEntity(
-                new dge.Rectangle(dge.vec2(30,30), 30, 30),
-                new dge.AnimationSheet("resources/sprites/pacman_sprite.png", 80, 32)
-            );
+			// Call parent constructor
+			this._super(container);
+			var drawing = container.parameters.drawing;
 
-            // Create levels
-            this.levels.push(new dge.Level(level1, 30));
+			// Load assets
+            this.bg = new dge.Graphics.Image("resources/images/level_background.png");
 
-            this.level = this.levels[0];
-            this.level.setMaterial(1, new dge.Image("resources/textures/wall.png"));
-            this.level.entities.push(this.pacman);
+			// Create level
+			this.level = new dge.Level(new dge.Graphics.Renderer(drawing), level1, 30);
+			this.level.setMaterial(1, new dge.Graphics.Image("resources/textures/wall.png"));
 
-            // Call parent constructor
-            this.parent.initialize.apply(this, [container, container.params.canvas]);
+			// Add controls
+			this.addControl('level', this.level);
+			this.addControl('pacman', new PacmanEntity(
+				new dge.Graphics.Renderer(drawing),
+				new dge.Rectangle(dge.vec2(30,30), 30, 30),
+				new dge.Graphics.AnimationSheet("resources/sprites/pacman_sprite.png", 100, 32)
+			));
         },
 
         /**
          * Draw method
-         * @param {Object} ctx
-         * @param {HTMLCanvasElement} canvas
          */
-        draw: function( ctx, canvas ) {
-            this.bg.draw(this);
-
-            // Draw level and its entities
-            this.level.draw(this);
+        draw: function() {
+			this.bg.draw(this.renderer);
+			this._super();
         },
 
+		/**
+		 * Update method
+		 * @param {Number} diff
+		 */
         update: function( diff ) {
-            this.level.update(diff);
+			this._super(diff);
         }
 
     });

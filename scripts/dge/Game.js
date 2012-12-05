@@ -19,7 +19,7 @@ dge.Game = (function( window ) {
      * Game class
      * @author Drahomír Hanák
      */
-    var Game = dge.Object.extend({
+    var Game = dge.Objects.DrawableControl.extend({
 
         /** @type {dge.Container} */
         context: null,
@@ -33,40 +33,31 @@ dge.Game = (function( window ) {
         /** @param {Function} */
         update: function(diff) {},
 
-        /** @typ {Function} */
-        draw: function(context, canvas) {},
-
         /**
          * Game constructor
          * @param {dge.Container} container
-         * @param {String|HTMLCanvasElement} canvas
+		 * @param {Object} parameters
          * @throws {Error} cannot create context
          * @constructor
          */
-        initialize: function( container, canvas ) {
-            // Get canvas element
-            this.canvas = (typeof canvas === "string" ? $(canvas).get(0) : canvas.get(0));
-            this.width = this.canvas.width;
-            this.height = this.canvas.height;
+        init: function( container ) {
 
-            // Check canvas
-            if (!this.canvas)
-                throw new Error("Canvas not found");
-            if (this.canvas && !this.canvas.getContext)
-                throw new Error("Cannot create drawing context on " + this.canvas);
+			// Call parent method
+			this._super(new dge.Graphics.Renderer(container.parameters.drawing));
 
             // Create context
-            this.ctx = this.canvas.getContext('2d');
             this.context = container;
+			$(container.parameters.drawing.base).addClass('dge-base');
 
+			// Setup timer
             this.addTick("repaint", this.repaint);
             this._tick(0);
         },
 
         /**
          * Add tick
-         * @param {String} tick name
-         * @param {Function} handle
+         * @param {String} tickName
+         * @param {Function} tickHandle
          */
         addTick: function( tickName, tickHandle ) {
             this._ticks.push({ name: tickName, handle: tickHandle });
@@ -74,7 +65,7 @@ dge.Game = (function( window ) {
 
         /**
          * Remove tick
-         * @param {String} name
+         * @param {String} tickName
          */
         removeTick: function( tickName ) {
             var index;
@@ -89,21 +80,23 @@ dge.Game = (function( window ) {
 
         /**
          * Repaint canvas
-         * @param {Number} time difference
+         * @param {Number} diff
          */
         repaint: function( diff ) {
-            // Clear canvas
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
             // Update and redraw
-            this.update.call(this, diff);
-            this.draw.apply(this, [this.ctx, this.canvas]);
+			var args = arguments;
+			this.each(function() {
+				if (this instanceof dge.Objects.GameObject) {
+					this.update.apply(this, args);
+				}
+			});
+            this.draw.call(this);
         },
 
         /**
          * On timer tick
-         * @param {Number} time difference
          * @private
+ 		 * @param {Number} diff
          */
         _tick: function( diff ) {
             // Count time for animation frame

@@ -1,25 +1,29 @@
-dge.Entity = (function() {
+dge.Objects.Entity = (function() {
 
     /**
      * Entiry class
      * @author Drahomír Hanák
      */
-    var Entity = dge.GameObject.extend({
+    var Entity = dge.Objects.GameObject.extend({
 
-        /** @type {dge.Vectro2} */
+        /** @type {dge.Vector2} */
         distance: dge.Vector2.zero(),
         /** @type {Number} */
         frameDiff: 0,
         /** Material type */
-        type: dge.GameObject.TYPE.WALK_THROUGH,
+        type: dge.Objects.GameObject.TYPE.WALK_THROUGH,
 
         /**
          * Update method
          * @param {Number} time difference
          */
         update: function( diff ) {
+			var old = this.rectangle.vector;
             var dist = this.distance.mul(diff).div(1000);
             this.rectangle.vector = this.rectangle.vector.add(dist);
+			if (!this.rectangle.vector.equals(old)) {
+				this.invalidateControl();
+			}
         },
 
         /**
@@ -29,6 +33,7 @@ dge.Entity = (function() {
          */
         collidesWidth: function( gameObject ) {
             if (gameObject.type === dge.GameObject.TYPE.SOLID) {
+                this.distance = dge.vec2(0, 0);
                 console.log("Walking throug the walls! Awesome :)");
             }
         },

@@ -7,7 +7,13 @@ dge.Container = (function() {
     var Container = dge.Object.extend({
 
         /** @type {Object} */
-        params: {},
+        parameters: {
+			drawing: {
+				base: '#dge',
+				width: 800,
+				height: 600
+			}
+		},
         /** @type {Object} */
         services: {},
 
@@ -16,8 +22,8 @@ dge.Container = (function() {
          * @param {Array} params
          * @constructor
          */
-        initialize: function( params ) {
-            this.params = params;
+        init: function( params ) {
+            this.parameters = params;
         },
 
         /**
@@ -25,7 +31,7 @@ dge.Container = (function() {
          * @return {dge.Game}
          */
         createServiceGame: function()  {
-            return new dge.Game(this, this.params['canvas']);
+            return new dge.Game(this);
         },
 
         /**

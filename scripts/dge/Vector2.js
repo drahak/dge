@@ -12,7 +12,7 @@ dge.Vector2 = (function() {
          * @param {Number} y
          * @constructor
          */
-        initialize: function( x, y ) {
+        init: function( x, y ) {
             if (arguments.length === 2  && typeof arguments[0] === 'number' && typeof arguments[1] === 'number' ){
                 this.x = arguments[0];
                 this.y = arguments[1];

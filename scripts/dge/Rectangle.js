@@ -13,19 +13,20 @@ dge.Rectangle = (function() {
         /** @type {Number} */
         height: 0,
 
-        /**
-         * Create rectangle
-         * @param {dge.Vector2}
-         * @param {Number} width
-         * @param {Number} height
-         */
-        initialize: function( vector, width, height ) {
+		/**
+		 * Create rectangle
+		 * @param {dge.Vector2} vector
+		 * @param {Number} width
+		 * @param {Number} height
+		 * @constructor
+		 */
+		init: function( vector, width, height ) {
             this.vector = (arguments.length == 4 && typeof arguments[0] == "number" && typeof arguments[1] == "number") ?
                 dge.Vector2.create(arguments[0], arguments[1]) :
                 vector;
 
             // Check vector
-            if (!(vector instanceof dge.Vector2))
+            if (!(this.vector instanceof dge.Vector2))
                 throw 'Fisrt arguments must be of type "Vector2" or two "Numbers"';
 
             // Set sizes
@@ -43,9 +44,9 @@ dge.Rectangle = (function() {
         },
 
         /**
-         * Determines whether a specified Rectangle intersects this Rectangle
-         * @param {dge.Rectangle}
-         * @return {Boolean}
+         * Determines whether a specified Rectangle intersects this one
+         * @param {dge.Rectangle} rect
+		 * @return {Boolean}
          */
         intersects: function( rect ) {
             if (((rect.vector.x+rect.width <= this.vector.x) || (rect.vector.x >= this.vector.x+this.width)))

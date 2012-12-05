@@ -1,10 +1,10 @@
-dge.AnimationSheet = (function() {
+dge.Graphics.AnimationSheet = (function() {
 
     /**
      * AnimationSheet class
      * @author Drahomír Hanák
      */
-    var AnimationSheet = dge.Image.extend({
+    var AnimationSheet = dge.Graphics.Image.extend({
 
         /**
          * Animation sheet
@@ -13,16 +13,17 @@ dge.AnimationSheet = (function() {
          * @param {Number} tileSize
          * @constructor
          */
-        initialize: function( source, interval, tileSize ) {
+        init: function( source, interval, tileSize ) {
 
             // Parent constructor
-            this.parent.initialize.call(this, source);
+            this.parent.init.call(this, source);
 
             // Set variables
             this.interval = interval;
             this.tileSize = tileSize;
             this.index = AnimationSheet.count++;
             this.nodes = {};
+			this.lastUpdate = new Date().getTime();
         },
 
         /** @type {Image} */
@@ -33,6 +34,8 @@ dge.AnimationSheet = (function() {
         step: 0,
         /** @type {Number} current anim tile index */
         animIndex: 0,
+		/** @type {Number} last animation update */
+		lastUpdate: 0,
 
         /**
          * Add node to animation sheet
@@ -54,10 +57,11 @@ dge.AnimationSheet = (function() {
 
         /**
          * Draw animation sheet
-         * @param {dge.Game} game instance
-         * @param {dge.Vector2}
+         * @param {dge.Graphics.Renderer} renderer
+         * @param {dge.Vector2} vector
+		 * @param {Number} diff
          */
-        draw: function( game, vector ) {
+        draw: function( renderer, vector ) {
 
             // Get position
             if (vector instanceof dge.Vector2)
@@ -67,14 +71,16 @@ dge.AnimationSheet = (function() {
             var steps = this.nodes[this.current];
 
             // Animation tick
-            this.step += game.diff;
+			var diff = new Date().getTime()-this.lastUpdate;
+            this.step += diff;
             if( this.step > this.interval ) {
                 this.step = 0;
                 this.animIndex = this.animIndex+1 >= steps.length ? 0 : (this.animIndex+1);
+				this.lastUpdate = new Date().getTime();
             }
 
             // Draw animation tile
-            this.drawTile(game, this.rectangle.vector, steps[this.animIndex], this.tileSize);
+            this.drawTile(renderer, this.rectangle.vector, steps[this.animIndex], this.tileSize);
         }
     });
 
