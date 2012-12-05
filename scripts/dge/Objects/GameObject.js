@@ -37,7 +37,6 @@ dge.Objects.GameObject = (function() {
 
 		/**
 		 * Draw game object
-		 * @param {dge.Graphics.Renderer} renderer
 		 */
 		draw: function() {
 			this._super();
@@ -48,13 +47,17 @@ dge.Objects.GameObject = (function() {
 
 		/**
 		 * Update control
-		 * @param diff
+		 * @param {dge.GameTime} gameTime
 		 */
-		update: function(diff) {
+		update: function(gameTime) {
 			var args = arguments;
 			this.each(function() {
 				this.update.apply(this, args);
 			});
+
+			if (this.image && this.image.update) {
+				this.image.update.call(this.image, gameTime);
+			}
 		},
 
         /**

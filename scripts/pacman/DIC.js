@@ -1,26 +1,26 @@
-Pacman.DIC = (function() {
+Pacman.DIC = (function () {
 
 	// Create system container
 	return new dge.DI.Container({
 
 		// Game rendering settings
-		parameters: {
+		parameters:{
 
 			// Levels
-			level: [
+			level:[
 				new dge.CollisionMap([
-					[1,1,1,1,1,1,1,1,1,1,1],
-					[1,0,0,0,0,0,0,0,0,0,1],
-					[1,1,1,1,1,1,1,1,1,0,1],
-					[1,0,0,0,0,0,0,0,0,0,1],
-					[1,1,1,1,1,1,1,1,1,1,1]
+					[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+					[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+					[1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
+					[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+					[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 				], 30)
 			]
 
 		},
 
 		// Services
-		services: {
+		services:{
 
 		}
 	});

@@ -2,11 +2,12 @@
 var sources = [
 
 	// Library sources
-	"./dge/helpers",
+	"./dge/dge",
 	"./dge/Object",
 	"./dge/Vector2",
 	"./dge/CollisionMap",
 	"./dge/Rectangle",
+	"./dge/GameTime",
 	"./dge/DI/Container",
 	"./dge/Utils/Input",
 	"./dge/Graphics/Renderer",
@@ -18,8 +19,10 @@ var sources = [
 	"./dge/Objects/GameObject",
 	"./dge/Objects/Entity",
 	"./dge/Game",
-	"./dge/Level",
+	"./dge/Level"
+];
 
+var gameSources = [
 	"./pacman/Game",
 	"./pacman/DIC",
 	"./pacman/Entities/PacmanEntity"
@@ -30,5 +33,7 @@ var Pacman = {
 };
 
 require(sources, function() {
-	var pacman = new Pacman.Game(Pacman.DIC);
+	require(gameSources, function() {
+		var pacman = new Pacman.Game(Pacman.DIC);
+	})
 });

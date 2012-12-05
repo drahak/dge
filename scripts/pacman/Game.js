@@ -1,25 +1,25 @@
-Pacman.Game = (function() {
+Pacman.Game = (function () {
 
 	/**
 	 * Pacman game class
 	 * @author Drahomír Hanák
 	 */
-	 var Game = dge.Game.extend({
+	var Game = dge.Game.extend({
 
 		// Assets
-		bg: null,
+		bg:null,
 		/** @type {Array}.<dge.Level> */
-		levels: [],
+		levels:[],
 		/** @type {dge.Level} */
-		level: null,
+		level:null,
 
-		inited: false,
+		inited:false,
 
 		/**
 		 * Pacman game constructor
 		 * @constructor
 		 */
-		init: function(container) {
+		init:function (container) {
 
 			// Call parent constructor
 			this._super(container);
@@ -35,25 +35,25 @@ Pacman.Game = (function() {
 			this.addControl('level', this.level);
 			this.addControl('pacman', new Pacman.Entities.PacmanEntity(
 				this.context.create('renderer'),
-				new dge.Rectangle(dge.vec2(30,30), 30, 30),
-				new dge.Graphics.AnimationSheet("resources/sprites/pacman_sprite.png", 100, 32)
+				new dge.Rectangle(dge.vec2(30, 30), 30, 30),
+				new dge.Graphics.AnimationSheet("resources/sprites/pacman_sprite.png", 5, 32)
 			));
 		},
 
 		/**
 		 * Draw method
 		 */
-		draw: function() {
+		draw:function () {
 			this.bg.draw(this.renderer);
 			this._super();
 		},
 
 		/**
 		 * Update method
-		 * @param {Number} diff
+		 * @param {dge.GameTime} gameTime
 		 */
-		update: function( diff ) {
-			this._super(diff);
+		update:function (gameTime) {
+			this._super(gameTime);
 		}
 
 	});

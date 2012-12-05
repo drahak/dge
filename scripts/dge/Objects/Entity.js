@@ -15,11 +15,12 @@ dge.Objects.Entity = (function() {
 
         /**
          * Update method
-         * @param {Number} time difference
+         * @param {dge.GameTime} gameTime
          */
-        update: function( diff ) {
+        update: function( gameTime ) {
+			this._super(gameTime);
 			var old = this.rectangle.vector;
-            var dist = this.distance.mul(diff).div(1000);
+            var dist = this.distance.mul(gameTime.elapsedTime).div(1000);
             this.rectangle.vector = this.rectangle.vector.add(dist);
 			if (!this.rectangle.vector.equals(old)) {
 				this.invalidateControl();
@@ -28,7 +29,7 @@ dge.Objects.Entity = (function() {
 
         /**
          * Check if this entity collide with another one
-         * @param {dge.GameObject}
+         * @param {dge.GameObject} gameObject
          * @return {Boolean}
          */
         collidesWidth: function( gameObject ) {
@@ -40,7 +41,7 @@ dge.Objects.Entity = (function() {
 
         /**
          * Spawn new entity
-         * @param {dge.Vector2} new position
+         * @param {dge.Vector2} vector
          * @return {dge.Entity}
          */
         spawn: function( vector ) {

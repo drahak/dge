@@ -21,22 +21,14 @@ dge.Game = (function( window ) {
      */
     var Game = dge.Objects.DrawableControl.extend({
 
-        /** @type {dge.Container} */
+        /** @type {dge.DI.Container} */
         context: null,
-
-        /** @type {Array}.<Function> */
-        _ticks: [],
-
-        /** @type {Number} */
-        time: new Date().getTime(),
-
-        /** @param {Function} */
-        update: function(diff) {},
+        /** @param {dge.GameTime} gameTime */
+        update: function(gameTime) {},
 
         /**
          * Game constructor
-         * @param {dge.Container} container
-		 * @param {Object} parameters
+         * @param {dge.DI.Container} container
          * @throws {Error} cannot create context
          * @constructor
          */
@@ -47,42 +39,22 @@ dge.Game = (function( window ) {
 
             // Create context
             this.context = container;
-			$(container.parameters.rendering.base).addClass('dge-base');
+			$(container.parameters['rendering'].base).addClass('dge-base');
 
 			// Setup timer
-            this.addTick("repaint", this.repaint);
-            this._tick(0);
-        },
-
-        /**
-         * Add tick
-         * @param {String} tickName
-         * @param {Function} tickHandle
-         */
-        addTick: function( tickName, tickHandle ) {
-            this._ticks.push({ name: tickName, handle: tickHandle });
-        },
-
-        /**
-         * Remove tick
-         * @param {String} tickName
-         */
-        removeTick: function( tickName ) {
-            var index;
-            for (var tick in this._ticks) {
-                if ( this._ticks[tick].name == tickName) {
-                    index = tick;
-                    break;
-                }
-            }
-            this._ticks.splice(index, 1);
+			var game = this;
+			var gameTime = this.context.get('gameTime');
+			gameTime.addListener('repaint', function(gameTime) {
+				game.repaint.call(game, gameTime);
+			});
+			this._tick(gameTime);
         },
 
         /**
          * Repaint canvas
-         * @param {Number} diff
+         * @param {dge.GameTime} gameTime
          */
-        repaint: function( diff ) {
+        repaint: function( gameTime ) {
             // Update and redraw
 			var args = arguments;
 			this.each(function() {
@@ -93,33 +65,19 @@ dge.Game = (function( window ) {
             this.draw.call(this);
         },
 
-        /**
-         * On timer tick
-         * @private
- 		 * @param {Number} diff
-         */
-        _tick: function( diff ) {
-            // Count time for animation frame
-            var game = this;
-            var lastTime = new Date().getTime(),
-                diff = lastTime-game.time;
+		/**
+		 * Timer tick
+		 * @param {dge.GameTime} gameTime
+		 * @private
+		 */
+		_tick: function(gameTime) {
+			var self = this;
+			gameTime.update();
 
-            // Request animation frame
-            requestAnimFrame(function() {
-                lastTime = new Date().getTime();
-                diff = lastTime-game.time;
-                game.diff = diff;
-
-                // Repaint every 60 second
-                if (diff >= 30) {
-                    for (var i in game._ticks) {
-                        game._ticks[i].handle.call(game, diff);
-                    }
-                    game.time = dge.Object.clone(lastTime);
-                }
-                game._tick.call(game, diff);
-            });
-        }
+			requestAnimFrame(function() {
+				self._tick.call(self, gameTime)
+			});
+		}
 
     });
 

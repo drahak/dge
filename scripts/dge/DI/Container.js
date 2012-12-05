@@ -14,14 +14,23 @@ dge.DI.Container = (function() {
 				base: '#dge',
 				width: 800,
 				height: 600
-			}
+			},
+
+			frameRate: 60
 		},
+
         /** @type {Object} */
         services: {
 
 			renderer: {
 				factory: function() {
 					return new dge.Graphics.Renderer(this.parameters['rendering']);
+				}
+			},
+
+			gameTime: {
+				factory: function() {
+					return new dge.GameTime(this.parameters['frameRate']);
 				}
 			}
 
