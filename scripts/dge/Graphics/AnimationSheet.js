@@ -60,13 +60,13 @@ dge.Graphics.AnimationSheet = (function() {
 
 			// Get position
 			if (vector instanceof dge.Vector2)
-				this.rectangle.vector = vector;
+				this.rectangle = this.rectangle.offset(vector);
 
 			// Active node steps
 			var steps = this.nodes[this.current];
 
 			// Draw animation tile
-			this.drawTile(renderer, this.rectangle.vector, steps[this.animIndex], this.tileSize);
+			this.drawTile(renderer, this.rectangle.getOffset(), steps[this.animIndex], this.tileSize);
 		},
 
 		/**

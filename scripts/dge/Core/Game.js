@@ -1,4 +1,6 @@
-dge.Game = (function( window ) {
+dge.Core = dge.Core || {};
+
+dge.Core.Game = (function( window ) {
 
     /**
      * Request animation frame

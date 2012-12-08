@@ -20,7 +20,7 @@ dge.Graphics.Image = (function() {
         init: function( source ) {
             this.img = new Image();
             this.source = source;
-            this.rectangle = new dge.Rectangle(dge.Vector2.zero(), 0, 0);
+            this.rectangle = new dge.Rectangle(0, 0, 0, 0);
 
             // Load image to get sizes
             var img = this;
@@ -32,8 +32,8 @@ dge.Graphics.Image = (function() {
 
         /**
          * Check if the image hasn't been loaded yet
-         * @param {Function} on load handle
-         * @return {dge.Image}
+         * @param {Function} handle on load
+         * @return {dge.Graphics.Image}
          */
         load: function( handle ) {
             var img;
@@ -61,11 +61,11 @@ dge.Graphics.Image = (function() {
 
             // Get position
             if (vector && vector instanceof dge.Vector2)
-                this.rectangle.vector = vector;
+                this.rectangle = this.rectangle.offset(vector);
 
             // Load & draw image
             return this.load(function() {
-				renderer.ctx.drawImage(this, that.rectangle.vector.x, that.rectangle.vector.y);
+				renderer.ctx.drawImage(this, that.rectangle.x, that.rectangle.y);
             });
         },
 
@@ -94,7 +94,7 @@ dge.Graphics.Image = (function() {
 				renderer.ctx.drawImage(this,
                     column*tileSize, row*tileSize,
                     tileSize, tileSize,
-                    that.rectangle.vector.x, that.rectangle.vector.y,
+                    that.rectangle.x, that.rectangle.y,
                     tileSize, tileSize
                 );
             });

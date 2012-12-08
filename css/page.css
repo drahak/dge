@@ -260,6 +260,10 @@ footer {
 	margin: 0;
 }  
 
+footer p {
+	text-align: center;
+}
+
 /**
  * ------------------
  * Media queries

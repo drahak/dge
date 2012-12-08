@@ -41,7 +41,7 @@ dge.Objects.GameObject = (function() {
 		draw: function() {
 			this._super();
 			if (this.image) {
-				this.image.draw(this.renderer, this.rectangle.vector);
+				this.image.draw(this.renderer, this.rectangle.getOffset());
 			}
 		},
 
@@ -63,9 +63,11 @@ dge.Objects.GameObject = (function() {
         /**
          * Set game object position
          * @param {dge.Vector2} vector
+		 * @return {dge.Objects.GameObject}
          */
         setPosition: function( vector ) {
-            this.rectangle.vector = vector;
+            this.rectangle = this.rectangle.offset(vector);
+			return this;
         },
 
 		/**
@@ -73,7 +75,7 @@ dge.Objects.GameObject = (function() {
 		 * @return {dge.Vector2}
 		 */
 		getPosition: function() {
-			return this.rectangle.vector;
+			return this.rectangle.getOffset();
 		}
 
     });

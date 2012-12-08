@@ -19,10 +19,10 @@ dge.Objects.Entity = (function() {
          */
         update: function( gameTime ) {
 			this._super(gameTime);
-			var old = this.rectangle.vector;
+			var old = this.rectangle.getOffset();
             var dist = this.distance.mul(gameTime.elapsedTime).div(1000);
-            this.rectangle.vector = this.rectangle.vector.add(dist);
-			if (!this.rectangle.vector.equals(old)) {
+			this.rectangle = this.rectangle.offset(this.rectangle.getOffset().add(dist));
+			if (!this.rectangle.getOffset().equals(old)) {
 				this.invalidateControl();
 			}
         },
@@ -47,7 +47,7 @@ dge.Objects.Entity = (function() {
         spawn: function( vector ) {
             var entity = this.clone();
             if (vector && vector instanceof dge.Vector2)
-                entity.rectangle.vector = vector;
+                entity.rectangle.offset(vector);
             return entity;
         }
 

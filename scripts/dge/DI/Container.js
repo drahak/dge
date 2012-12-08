@@ -10,27 +10,43 @@ dge.DI.Container = (function() {
 
         /** @type {Object} */
         parameters: {
+
+			// Rendering options
 			rendering: {
 				base: '#dge',
 				width: 800,
-				height: 600
+				height: 600,
+				frameRate: 60
 			},
 
-			frameRate: 60
+			// Box2D objects scale
+			scale: 30,
+
+			// Physics options
+			phsics: {
+				gravity: new b2Vec2(0, 1)
+			}
 		},
 
         /** @type {Object} */
         services: {
 
 			renderer: {
-				factory: function() {
+				create: function() {
 					return new dge.Graphics.Renderer(this.parameters['rendering']);
 				}
 			},
 
 			gameTime: {
-				factory: function() {
-					return new dge.GameTime(this.parameters['frameRate']);
+				create: function() {
+					return new dge.GameTime(this.parameters['rendering'].frameRate);
+				}
+			},
+
+			world: {
+				create: function() {
+					var physics = this.parameters['physics'];
+					return new b2World(physics.gravity, true);
 				}
 			}
 
@@ -54,7 +70,7 @@ dge.DI.Container = (function() {
 		 */
     	factory: function(name, service) {
 			this.services[name] = this.services[name] || {};
-			this.services[name].factory = service;
+			this.services[name].create = service;
 			return this;
 		},
 
@@ -64,7 +80,7 @@ dge.DI.Container = (function() {
 		 * @return {Object}
 		 */
 		create: function(name) {
-			return this.services[name].factory.apply(this, Array.prototype.slice.call(arguments, 1));
+			return this.services[name].create.apply(this, Array.prototype.slice.call(arguments, 1));
 		},
 
 		/**

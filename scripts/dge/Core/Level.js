@@ -1,12 +1,16 @@
-dge.Level = (function() {
+dge.Core.Level = (function() {
 
+	/**
+	 * Level
+	 * @author Drahomír Hanák
+	 */
     var Level = dge.Objects.GameObject.extend({
 
         /** @type {Number} tile size */
         tileSize: 40,
         /** @type {dge.CollisionMap} */
         collisionMap: [],
-        /** @type {Object}.<dge.Graphics.Image> */
+        /** @type {Object}.<dge.Core.Material> */
         material: {},
 
         /**

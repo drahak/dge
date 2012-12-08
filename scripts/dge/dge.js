@@ -1,5 +1,21 @@
 var dge = (function( dge ) {
 
+	// Using Box2D
+	/**
+	var	b2Vec2 = Box2D.Common.Math.b2Vec2,
+		b2BodyDef = Box2D.Dynamics.b2BodyDef,
+		b2Body = Box2D.Dynamics.b2Body,
+		b2FixtureDef = Box2D.Dynamics.b2FixtureDef,
+		b2Fixture = Box2D.Dynamics.b2Fixture,
+		b2World = Box2D.Dynamics.b2World,
+		b2MassData = Box2D.Collision.Shapes.b2MassData,
+		b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
+		b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
+		b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
+	*/
+
+
+	// Dge engine
     var dge = dge || {};
 
     /**
@@ -12,11 +28,11 @@ var dge = (function( dge ) {
 
     /**
      * Is number
-     * @param {Number}
+     * @param {Number} num
      * @return {Boolean}
      */
     dge.isNumber = function( num ) {
-        return parseFloat(num) && num == parseFloat(num);
+        return num == parseFloat(num);
     };
 
     return dge;

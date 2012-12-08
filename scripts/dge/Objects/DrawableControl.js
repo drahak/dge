@@ -13,7 +13,7 @@ dge.Objects.DrawableControl = (function() {
 
 		/**
 		 * Initialize drawable component
-		 * @param {Object} drawing
+		 * @param {Object} renderer
 		 * @constructor
 		 */
 		init: function( renderer ) {
