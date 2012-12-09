@@ -5,7 +5,8 @@ var sources = {
 		"./dge/Vector2",
 		"./dge/CollisionMap",
 		"./dge/Rectangle",
-		"./dge/GameTime"
+		"./dge/GameTime",
+		"./dge/Asset"
 	],
 	Objects: [
 		"./dge/Objects/Control",
@@ -20,6 +21,7 @@ var sources = {
 		"./dge/Graphics/AnimationSheet"
 	],
 	Core:  [
+		"./dge/Core/Loader",
 		"./dge/Core/Game",
 		"./dge/Core/Level"
 	],

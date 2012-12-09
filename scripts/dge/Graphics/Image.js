@@ -7,7 +7,7 @@ dge.Graphics.Image = (function() {
      * Image class
      * @author Drahomír Hanák
      */
-    var Img = dge.Object.extend({
+    var Img = dge.Asset.extend({
 
         /** @type {dge.Rectangle} image retangle */
         rectangle: null,
@@ -28,6 +28,7 @@ dge.Graphics.Image = (function() {
                 img.rectangle.width = this.width;
                 img.rectangle.height = this.height;
             });
+			this._super();
         },
 
         /**

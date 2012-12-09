@@ -6,12 +6,17 @@ Pacman.Entities.PacmanEntity = (function() {
      */
     var PacmanEntity = dge.Objects.Entity.extend({
 
-        /**
-         * Initialize entity
-         */
-        init: function() {
+		/**
+		 * Initialize entity
+		 * @param {dge.Graphics.Renderer} renderer
+		 */
+        init: function(renderer) {
             // Call parent
-            this._super.apply(this, arguments);
+            this._super(
+				renderer,
+				new dge.Rectangle(30, 30, 30, 30),
+				new dge.Graphics.AnimationSheet("resources/sprites/pacman_sprite.png", 5, 32)
+			);
 
             this.image.addNode("right", [1,2,3,2]);
             this.image.addNode("left", [4,5,6,5]);

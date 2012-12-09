@@ -31,11 +31,7 @@ Pacman.Game = (function () {
 
 			// Add controls
 			this.addControl('level', this.level);
-			this.addControl('pacman', new Pacman.Entities.PacmanEntity(
-				this.context.create('renderer'),
-				new dge.Rectangle(30, 30, 30, 30),
-				new dge.Graphics.AnimationSheet("resources/sprites/pacman_sprite.png", 5, 32)
-			));
+			this.addControl('pacman', new Pacman.Entities.PacmanEntity(this.context.create('renderer')));
 		},
 
 		/**

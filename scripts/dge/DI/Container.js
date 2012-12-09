@@ -20,12 +20,7 @@ dge.DI.Container = (function() {
 			},
 
 			// Box2D objects scale
-			scale: 30,
-
-			// Physics options
-			phsics: {
-				gravity: new b2Vec2(0, 1)
-			}
+			scale: 30
 		},
 
         /** @type {Object} */
@@ -40,13 +35,6 @@ dge.DI.Container = (function() {
 			gameTime: {
 				create: function() {
 					return new dge.GameTime(this.parameters['rendering'].frameRate);
-				}
-			},
-
-			world: {
-				create: function() {
-					var physics = this.parameters['physics'];
-					return new b2World(physics.gravity, true);
 				}
 			}
 
