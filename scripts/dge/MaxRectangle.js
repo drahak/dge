@@ -1,5 +1,19 @@
 dge.MaxRectangle = (function() {
 
+	var _maxArea = 0,
+		_largestRect = null,
+		_rectangles = [],
+		_size = { x: 0, y: 0 };
+
+
+	function _computeArea(i, j, a, b) {
+		if (a < i)
+			return -1;
+		if (b < j)
+			return -1;
+		return (a-i+1) * (b-j+1);
+	}
+
 	/**
 	 * Max rectangle algorithm
 	 * @author Drahomír Hanák
@@ -8,12 +22,6 @@ dge.MaxRectangle = (function() {
 
 		/** @type {dge.CollisionMap} */
 		stack: null,
-		/** @type {Number} */
-		_maxArea: 0,
-		/** @type {dge.Rectangle} */
-		_largestRect: null,
-		/** @type {dge.Rectangle[]} */
-		_rectangles: [],
 
 		/**
 		 * Max rectangle initialize
@@ -22,9 +30,10 @@ dge.MaxRectangle = (function() {
 		 */
 		init: function( _map ) {
 			this.stack = _map.clone();
-			this._size = this.stack.size();
-			this._maxArea = 0;
-			this._largestRect = new dge.Rectangle(0, 0, 0, 0);
+
+			_size = this.stack.size();
+			_maxArea = 0;
+			_largestRect = new dge.Rectangle(0, 0, 0, 0);
 		},
 
 		/**
@@ -34,24 +43,32 @@ dge.MaxRectangle = (function() {
 		 */
 		next: function() {
 			var pos;
+
+			// If there is no 1's return 0
 			if (!(pos = this.stack.contains(1)))
 				return 0;
 
-			this._largestRect = new dge.Rectangle(pos.x, pos.y, 0, 0);
-			this._maxArea = 0; //remove even 1x1 rectangles
+			// Set largest rectangle position to the first tile contains 1
+			_largestRect = new dge.Rectangle(pos.x, pos.y, 0, 0);
+			_maxArea = 0; //remove even 1x1 rectangles
 
+			// Try to grow region for each point
 			var rectangle;
-			for (var i = 0; i < this._size.y; i++) {
-				for (var j = 0; j < this._size.x; j++) {
+			for (var i = 0; i < _size.y; i++) {
+				for (var j = 0; j < _size.x; j++) {
 					rectangle = this._growRegion(i, j);
 				}
 			}
 
+			// If there is no bigger rectangle then 1x1
 			if (this.stack.get(rectangle.x, rectangle.y).type == 0)
 				return 0;
 
+			// Clear largest rectangle form stack
 			this.stack.clear(rectangle);
-			this._rectangles.push(rectangle);
+			// Add it to local rectangles array
+			_rectangles.push(rectangle);
+
 			return rectangle;
 		},
 
@@ -60,7 +77,7 @@ dge.MaxRectangle = (function() {
 		 * @return {dge.Rectangle[]}
 		 */
 		getRectangles: function() {
-			return this._rectangles;
+			return _rectangles;
 		},
 
 		/**
@@ -72,10 +89,10 @@ dge.MaxRectangle = (function() {
 		 */
 		_growRegion: function(i, j) {
 			var a = i, b = j;
-			var rowMax = this._size.x-1;
+			var rowMax = _size.x-1;
 			var mapArray = this.stack.get();
 
-			while ((b <= this._size.x-1) && mapArray[i] && mapArray[i][b] && mapArray[i][b].type != 0) {
+			while ((b <= _size.x-1) && mapArray[i] && mapArray[i][b] && mapArray[i][b].type != 0) {
 				a = i;
 				while ((a <= rowMax) && mapArray[a] && mapArray[a][b] && mapArray[a][b].type == 1)
 					a = a + 1;
@@ -84,34 +101,17 @@ dge.MaxRectangle = (function() {
 				if (a < rowMax)
 					rowMax = a;
 
-				var area = this._computeArea(i, j, a, b);
-				if (area > this._maxArea) {
-					this._maxArea = area;
-					this._largestRect = new dge.Rectangle(j, i, a-i+1, b-j+1);
+				var area = _computeArea(i, j, a, b);
+				if (area >_maxArea) {
+					_maxArea = area;
+					_largestRect = new dge.Rectangle(j, i, a-i+1, b-j+1);
 				}
 				b++;
 			}
 
-			return this._largestRect;
-		},
-
-
-		/**
-		 * Compute area of two points
-		 * @param {Number} i
-		 * @param {Number} j
-		 * @param {Number} a
-		 * @param {Number} b
-		 * @return {Number}
-		 * @private
-		 */
-		_computeArea: function(i, j, a, b) {
-			if (a < i)
-				return -1;
-			if (b < j)
-				return -1;
-			return (a-i+1) * (b-j+1);
+			return _largestRect;
 		}
+
 	});
 
 	return MaxRectangle;

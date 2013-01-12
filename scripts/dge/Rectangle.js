@@ -92,11 +92,12 @@ dge.Rectangle = (function() {
 		 * @return {Boolean}
          */
         intersects: function( rect ) {
-            if (((rect.x+rect.width <= this.x) || (rect.x >= this.x+this.width)))
-                return false;
-            else if (((rect.y >= this.y+this.height) || (rect.y+rect.height <= this.y)))
-                return false;
-            return true;
+			var intersectsLeft = (rect.x + rect.width <= this.x);
+			var intersectsRight = (rect.x >= this.x + this.width);
+			var intersectsBottom = (rect.y >= this.y + this.height);
+			var intersectsTop = (rect.y + rect.height <= this.y);
+
+            return  !(intersectsLeft || intersectsRight) && !(intersectsBottom || intersectsTop);
         }
 
     });
