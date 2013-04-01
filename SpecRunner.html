@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Jasmine Spec Runner</title>
+
+	<link rel="shortcut icon" type="image/png" href="lib/jasmine-1.3.1/jasmine_favicon.png">
+	<link rel="stylesheet" type="text/css" href="lib/jasmine-1.3.1/jasmine.css">
+
+	<script src="lib/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/jasmine-1.3.1/jasmine.js"></script>
+	<script type="text/javascript" src="lib/jasmine-1.3.1/jasmine-html.js"></script>
+
+	<!-- include source files here... -->
+	<script type="text/javascript" src="src/dge/dge.js"></script>
+	<script type="text/javascript" src="src/dge/Object.js"></script>
+	<script type="text/javascript" src="src/dge/Vector2.js"></script>
+	<script type="text/javascript" src="src/dge/CollisionMap.js"></script>
+	<script type="text/javascript" src="src/dge/Rectangle.js"></script>
+	<script type="text/javascript" src="src/dge/GameTime.js"></script>
+	<script type="text/javascript" src="src/dge/Asset.js"></script>
+
+	<script type="text/javascript" src="src/dge/Objects/Control.js"></script>
+	<script type="text/javascript" src="src/dge/Objects/Container.js"></script>
+	<script type="text/javascript" src="src/dge/Objects/DrawableControl.js"></script>
+	<script type="text/javascript" src="src/dge/Objects/GameObject.js"></script>
+	<script type="text/javascript" src="src/dge/Objects/Entity.js"></script>
+
+	<script type="text/javascript" src="src/dge/Graphics/Renderer.js"></script>
+	<script type="text/javascript" src="src/dge/Graphics/Image.js"></script>
+	<script type="text/javascript" src="src/dge/Graphics/AnimationSheet.js"></script>
+
+	<script type="text/javascript" src="src/dge/Core/Loader.js"></script>
+	<script type="text/javascript" src="src/dge/Core/Game.js"></script>
+	<script type="text/javascript" src="src/dge/Core/Level.js"></script>
+
+	<script type="text/javascript" src="src/dge/DI/Container.js"></script>
+	<script type="text/javascript" src="src/dge/Utils/Input.js"></script>
+
+	<!-- include spec files here... -->
+	<script type="text/javascript" src="spec/dge/dgeSpec.js"></script>
+	<script type="text/javascript" src="spec/dge/ObjectSpec.js"></script>
+	<script type="text/javascript" src="spec/dge/Vector2Spec.js"></script>
+	<script type="text/javascript" src="spec/dge/CollisionMapSpc.js"></script>
+	<script type="text/javascript" src="spec/dge/RectangleSpec.js"></script>
+
+	<script type="text/javascript">
+	(function() {
+		var jasmineEnv = jasmine.getEnv();
+		jasmineEnv.updateInterval = 1000;
+
+		var htmlReporter = new jasmine.HtmlReporter();
+
+		jasmineEnv.addReporter(htmlReporter);
+
+		jasmineEnv.specFilter = function(spec) {
+			return htmlReporter.specFilter(spec);
+		};
+
+		var currentWindowOnload = window.onload;
+
+		window.onload = function() {
+			if (currentWindowOnload) {
+				currentWindowOnload();
+			}
+			execJasmine();
+		};
+
+		function execJasmine() {
+			jasmineEnv.execute();
+		}
+
+	})();
+	</script>
+
+</head>
+
+<body>
+</body>
+</html>

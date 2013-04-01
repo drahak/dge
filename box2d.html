@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Box2D.js & dge demo</title>
+
+		<script src="scripts/libs/jquery.min.js"></script>
+		<script src="scripts/dge/dge.js"></script>
+		<script src="scripts/dge/Object.js"></script>
+		<script src="scripts/dge/Vector2.js"></script>
+		<script src="scripts/dge/Rectangle.js"></script>
+		<script src="scripts/dge/CollisionMap.js"></script>
+		<script src="scripts/dge/MaxRectangle.js"></script>
+		<script src="Box2D.js"></script>
+		<script src="stats.js"></script>
+	</head>
+	<body>
+	<h1>Nadpis</h1>
+	<canvas id="c" width="1290" height="600" style="border: 1px solid black"></canvas>
+
+
+
+		<script>
+			// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+			window.requestAnimFrame = (function(){
+				return  window.requestAnimationFrame       ||
+						window.webkitRequestAnimationFrame ||
+						window.mozRequestAnimationFrame    ||
+						window.oRequestAnimationFrame      ||
+						window.msRequestAnimationFrame     ||
+						function(/* function */ callback, /* DOMElement */ element){
+							window.setTimeout(callback, 1000 / 60);
+						};
+			})();
+
+			var pressed = [],
+				player,
+				jumping;
+
+			var stats = new Stats();
+			document.body.appendChild(stats.domElement);
+
+			var canvas = document.getElementById("c");
+			var ctx = canvas.getContext("2d");
+
+			var world;
+			var   b2Vec2 = Box2D.Common.Math.b2Vec2
+					, b2BodyDef = Box2D.Dynamics.b2BodyDef
+					, b2Body = Box2D.Dynamics.b2Body
+					, b2FixtureDef = Box2D.Dynamics.b2FixtureDef
+					, b2Fixture = Box2D.Dynamics.b2Fixture
+					, b2World = Box2D.Dynamics.b2World
+					, b2MassData = Box2D.Collision.Shapes.b2MassData
+					, b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
+					, b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
+					, b2DebugDraw = Box2D.Dynamics.b2DebugDraw
+					;
+
+			function init() {
+
+				// gravity, allow sleep
+				world = new b2World(new b2Vec2(0, 10), false);
+
+				var SCALE = 30;
+				var fixDef = new b2FixtureDef;
+
+				var map = new dge.CollisionMap([
+					[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+					[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+					[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+				], 15);
+
+				/**
+				var map = new dge.CollisionMap([
+					[1,1,1,1,1,1],
+					[1,0,0,1,1,1],
+					[1,0,0,1,1,1],
+					[1,0,0,0,0,1],
+					[0,0,1,0,1,1],
+					[0,0,1,1,1,1]
+				], 15);*/
+
+
+				var level = map.map;
+				var stack = map.clone();
+
+				// Figure 1. Max rectangle algorithm
+
+				function drawRect(rect) {
+					var width = rect.width*map.tileSize;
+					var height = rect.height*map.tileSize;
+					var bodyDef = new b2BodyDef;
+
+					bodyDef.type = b2Body.b2_staticBody;
+					bodyDef.position.x = (width+(rect.x*map.tileSize*2)) / SCALE;
+					bodyDef.position.y = (height+(rect.y*map.tileSize*2)) / SCALE;
+					fixDef.density = 1;
+					fixDef.friction = 0.5;
+					fixDef.restitution = 0.2;
+					fixDef.shape = new b2PolygonShape;
+					fixDef.shape.SetAsBox(width / SCALE, height / SCALE);
+					world.CreateBody(bodyDef).CreateFixture(fixDef);
+				}
+
+				var rect;
+				var maxRectangle = new dge.MaxRectangle(map);
+				while (rect = maxRectangle.next()) {
+					drawRect(rect);
+				}
+
+				/**
+				map.each(function(x, y, type) {
+					if (type == 1) {
+						var bodyDef = new b2BodyDef;
+						bodyDef.type = b2Body.b2_staticBody;
+						bodyDef.position.x = ((x*map.tileSize*2)+map.tileSize) / SCALE;
+						bodyDef.position.y = ((y*map.tileSize*2)+map.tileSize) / SCALE;
+						fixDef.shape = new b2PolygonShape;
+						fixDef.shape.SetAsBox(map.tileSize / SCALE, map.tileSize / SCALE);
+						world.CreateBody(bodyDef).CreateFixture(fixDef);
+					}
+				});*/
+
+				//create some objects
+				var bodyDef = new b2BodyDef;
+				bodyDef.type = b2Body.b2_dynamicBody;
+				bodyDef.position.x = 200 / SCALE;
+				bodyDef.position.y = 60 / SCALE;
+				bodyDef.fixedRotation = false;
+				fixDef.shape = new b2CircleShape(0.5);
+				//fixDef.shape.SetAsBox((14.5/SCALE), (14.5/SCALE));
+
+				var body = world.CreateBody(bodyDef).CreateFixture(fixDef).GetBody();
+				player = body;
+
+				var listener = new Box2D.Dynamics.b2ContactListener;
+				listener.BeginContact = function(contact) {
+					body = contact.GetFixtureA().GetBody();
+					jumping = false;
+				}
+				world.SetContactListener(listener);
+
+				$('body, html').keydown(function(e) {
+					//e.preventDefault();
+					var k = e.keyCode;
+					pressed.push(k);
+				});
+				$('body, html').keyup(function(e) {
+					var k = e.keyCode;
+					if (k == 32) {
+						pressed.splice(pressed.indexOf(32), 1);
+						return;
+					}
+					pressed.splice(0, pressed.length);
+				});
+
+				$(function() {
+					$('body, html').keydown(function(e) {
+						var k = e.keyCode;
+
+						if (k == 16 && world.GetGravity().y < 0) {
+							var force = new b2Vec2(0, 10);
+							world.SetGravity(world.GetGravity().GetNegative());
+							player.ApplyImpulse(force, player.GetPosition());
+						} else if (k == 16 && world.GetGravity().y > 0) {
+							var force = new b2Vec2(0, -10);
+							world.SetGravity(world.GetGravity().GetNegative());
+							player.ApplyImpulse(force, player.GetPosition());
+						}
+					});
+				})
+
+				//setup debug draw
+				var debugDraw = new b2DebugDraw();
+				debugDraw.SetSprite(document.getElementById("c").getContext("2d"));
+				debugDraw.SetDrawScale(SCALE);
+				debugDraw.SetFillAlpha(0.3);
+				debugDraw.SetLineThickness(1.0);
+				debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+				world.SetDebugDraw(debugDraw);
+
+
+				//setTimeout(init, 6000);
+			}; // init()
+
+			var plrSteps = [];
+
+			var inited = false;
+			function update() {
+				world.Step(
+						1 / 60   //frame-rate
+						,  10       //velocity iterations
+						,  10       //position iterations
+				);
+				world.DrawDebugData();
+				world.ClearForces();
+
+				var vel = player.GetLinearVelocity();
+				var angularVel = player.GetAngularVelocity();
+				if (angularVel > 5) angularVel = 5;
+				if (angularVel < -5) angularVel = -5;
+				player.SetAngularVelocity(angularVel);
+
+
+				if (pressed.indexOf(68) !== -1) {
+					//player.ApplyForce(new b2Vec2(8, 0), player.GetPosition());
+					vel.Add(new b2Vec2(0.12, 0));
+				}
+				if (pressed.indexOf(65) !== -1) {
+					//player.ApplyForce(new b2Vec2(-8, 0), player.GetPosition());
+					vel.Add(new b2Vec2(-0.12, 0));
+				}
+				if (pressed.indexOf(32) !== -1 && !jumping) {
+					var force = player.GetMass() * 5.5;
+					player.ApplyImpulse(new b2Vec2(0, force * (world.GetGravity().y > 0 ? -1 : 1)), player.GetPosition());
+					jumping = true;
+				}
+				player.SetLinearVelocity(vel);
+
+				stats.update();
+				requestAnimFrame(update);
+			}; // update()
+
+			init();
+			requestAnimFrame(update);
+
+		</script>
+
+
+	</body>
+</html>

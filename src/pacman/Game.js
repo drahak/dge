@@ -47,7 +47,7 @@ Pacman.Game = (function () {
 		 * @param {dge.GameTime} gameTime
 		 */
 		update: function (gameTime) {
-			this.context.get('world').Step(gameTime.elapsedTime, 5);
+			//this.context.get('world').Step(gameTime.elapsedTime, 5);
 			this._super(gameTime);
 		}
 

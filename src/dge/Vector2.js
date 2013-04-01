@@ -108,8 +108,8 @@ dge.Vector2 = (function() {
 
         /**
          * Divide Vector2
-         * @param {Number|Vector2}
          * @return {dge.Vectro2}
+		 * @param {Number|dge.Vector2} count
          */
         div: function( count ) {
             var output = new Vector2( this.x, this.y );
@@ -127,8 +127,8 @@ dge.Vector2 = (function() {
 
         /**
          * Dot Vector2
-         * @param {dge.Vector2}
-            * @return {Number}
+         * @param {dge.Vector2} vector
+         * @return {Number}
          */
         dot: function( vector ) {
             if (!(vector instanceof Vector2)) {
@@ -162,7 +162,7 @@ dge.Vector2 = (function() {
         },
 
         /**
-         * Mosulus Vector2
+         * Modulus Vector2
          * @return {Number}
          */
         mod: function() {
@@ -171,8 +171,8 @@ dge.Vector2 = (function() {
 
         /**
          * Compare two vectors
-         * @param {dge.Vector2}
-         * @return {boolean}
+         * @param {dge.Vector2} vector
+         * @return {Boolean}
          */
         equals: function( vector ) {
             return ((vector.x === this.x) && (vector.y === this.y));

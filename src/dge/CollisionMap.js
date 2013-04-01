@@ -92,8 +92,10 @@ dge.CollisionMap = (function() {
                         this.map[y] = [];
 
                     for ( var x = 0; x < width; x++ ) {
-                        if ( !this.map[y][x] || this.map[y][x] && this.map[y][x].type === 0 )
+                        if ( !this.map[y][x] || this.map[y][x] && this.map[y][x].type === 0 ) {
+							this.map[y][x] = this.map[y][x] || {};
                             this.map[y][x].type = 0;
+						}
                     }
                 }
             }

@@ -51,7 +51,7 @@ dge.Object = (function() {
 
         /**
          * Inherit methods from object and returns class
-         * @param {Object} Properties
+         * @param {Object} prop Properties
          * @return {Function} objet constuctor
          */
         extend: function( prop ) {

@@ -25,6 +25,7 @@ dge.Core.Game = (function( window ) {
 
         /** @type {dge.DI.Container} */
         context: null,
+
         /** @param {dge.GameTime} gameTime */
         update: function(gameTime) {},
 
@@ -46,6 +47,9 @@ dge.Core.Game = (function( window ) {
 			// Setup timer
 			var game = this;
 			var gameTime = this.context.get('gameTime');
+			gameTime.addListener('update', function(gameTime) {
+				game.updateLoop.call(game, gameTime);
+			});
 			gameTime.addListener('repaint', function(gameTime) {
 				game.repaint.call(game, gameTime);
 			});
@@ -58,14 +62,21 @@ dge.Core.Game = (function( window ) {
          */
         repaint: function( gameTime ) {
             // Update and redraw
+            this.draw.call(this);
+        },
+
+		/**
+		 * Update game loop
+		 * @param {dge.GameTime} gameTime
+		 */
+		updateLoop: function(gameTime) {
 			var args = arguments;
 			this.each(function() {
 				if (this instanceof dge.Objects.GameObject) {
 					this.update.apply(this, args);
 				}
 			});
-            this.draw.call(this);
-        },
+		},
 
 		/**
 		 * Timer tick

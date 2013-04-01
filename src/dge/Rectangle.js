@@ -33,8 +33,8 @@ dge.Rectangle = (function() {
 			}
 
             // Set sizes
-			this.width = arguments[arguments.length-1];
-			this.height = arguments[arguments.length-2];
+			this.width = arguments[arguments.length-2];
+			this.height = arguments[arguments.length-1];
         },
 
         /**
@@ -62,8 +62,9 @@ dge.Rectangle = (function() {
 		 * @return {Number}
 		 */
 		area: function() {
-			if (this.width < 0 || this.height < 0)
-				return -1;
+			if (this.width < 0 || this.height < 0) {
+				throw new Error('Cannot compute area from negative width or height value');
+			}
 			return this.width*this.height;
 		},
 
@@ -90,14 +91,15 @@ dge.Rectangle = (function() {
          * Determines whether a specified Rectangle intersects this one
          * @param {dge.Rectangle} rect
 		 * @return {Boolean}
+		 * @see http://silentmatt.com/rectangle-intersection/
          */
         intersects: function( rect ) {
-			var intersectsLeft = (rect.x + rect.width <= this.x);
-			var intersectsRight = (rect.x >= this.x + this.width);
-			var intersectsBottom = (rect.y >= this.y + this.height);
-			var intersectsTop = (rect.y + rect.height <= this.y);
+			var intersectsLeft = (this.x < rect.x + rect.width);
+			var intersectsRight = (this.x + this.width > rect.x);
+			var intersectsBottom = (this.y + this.height > rect.y);
+			var intersectsTop = (this.y < rect.y + rect.height);
 
-            return  !(intersectsLeft || intersectsRight) && !(intersectsBottom || intersectsTop);
+            return  (intersectsLeft && intersectsRight && intersectsBottom && intersectsTop);
         }
 
     });
