@@ -56,7 +56,7 @@ dge.GameTime = (function() {
 		 */
 		removeListener: function(name) {
 			if (this._listeners[name])
-				this._listeners.splice(this._listeners.indexOf(this._listeners[name]), 1);
+				delete this._listeners[name];
 			return this;
 		},
 
